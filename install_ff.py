@@ -50,25 +50,33 @@ archive = archive_with_path.name.rsplit('.', 2)[0]
 # Set which folder to install to.
 if args.dev:
     install_folder = args.dest + 'firefox-developer-edition'
-    check_firefox_edition(archive)
+    # check_firefox_edition(archive)
     print('Installing Firefox Developer Edition.')
+    print('Please wait...')
 else:
     install_folder = args.dest + 'firefox-quantum'
-    check_firefox_edition(archive)
+    # check_firefox_edition(archive)
     print('Installing Firefox Quantum Edition.')
+    print('Please wait...')
 
 # If the directory exists rename it.
 if os.path.exists(install_folder):
     shutil.move(install_folder, install_folder + now)
 
-# Create new install folder.
-Path(install_folder).mkdir(parents=True, exist_ok=True)
+# Move archive to destination.
+shutil.move(pkg, args.dest)
+
+# Change directory.
+os.chdir(args.dest)
 
 # Extract file from tar.bz2 file.
 with tarfile.open(pkg, mode='r:bz2') as tar:
-    tar.extractall(install_folder)
+    tar.extractall('.')
 
 # Set the correct permissions on folder.
-os.chmod(install_folder, 0o755)
+os.chmod('firefox/', 0o755)
+
+# Rename directory.
+shutil.move('firefox/', 'firefox-quantum')
 
 print('Firefox has been in installed to {}.'.format(install_folder))
