@@ -22,7 +22,7 @@ def check_firefox_edition(tar_bz2_file):
                  developer edition. Use --dev.')
 
 
-now = datetime.today().strftime('-%Y-%m-%d')
+now = datetime.today().strftime('-%Y-%m-%d-%Hh%Mm%Ss')
 
 parser = argparse.ArgumentParser(description='Install Firefox Quantum \
                                  or Developer Edition.')
